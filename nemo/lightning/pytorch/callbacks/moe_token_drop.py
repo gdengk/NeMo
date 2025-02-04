@@ -57,6 +57,7 @@ class MegatronTokenDropCallback(Callback):
             ], 'moe_expert_capacity_factor only works with alltoall token dispatcher'
             assert trainer.model.config.moe_router_load_balancing_type in [
                 "aux_loss",
+                "seq_aux_loss",
                 "none",
             ], 'moe_expert_capacity_factor only works with aux_loss or none load balancing'
 

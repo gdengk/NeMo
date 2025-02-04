@@ -93,7 +93,7 @@ class DeepSeekConfig(MLATransformerConfig, GPTConfig):
     persist_layer_norm = True
 
     # fusions
-    apply_rope_fusion = True
+    apply_rope_fusion = False
     bias_activation_fusion = True
     bias_dropout_fusion = True
     masked_softmax_fusion = True
@@ -142,6 +142,9 @@ class DeepSeekV3Config(DeepSeekConfig):
     moe_layer_freq: Union[int, List[int]] = field(
         default_factory=lambda: [0] * 3 + [1] * 58
     )  # first three layers are dense
+    # moe_layer_freq: Union[int, List[int]] = field(
+    #     default_factory=lambda: [0] * 2 + [1] * 2
+    # )  # first three layers are dense
     moe_router_topk: int = 8
     moe_router_topk_limited_devices: int = 4
     moe_router_topk_scaling_factor: float = 2.5
