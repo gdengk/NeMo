@@ -133,6 +133,10 @@ class Llama4OmniConfig(NevaConfig):
         if self.language_transformer_config is not None:
             for attr in MODEL_CONFIG_ATTR:
                 setattr(self, attr, getattr(self.language_transformer_config, attr))
+            
+            if self.language_transformer_config.enable_cuda_graph:
+                setattr(self.language_transformer_config, "use_te_rng_tracker", getattr(self, "use_te_rng_tracker"))
+                setattr(self.vision_transformer_config, "use_te_rng_tracker", getattr(self, "use_te_rng_tracker"))
 
     def configure_model(self, tokenizer) -> "MCoreNevaModel":
         # pylint: disable=C0115,C0116
