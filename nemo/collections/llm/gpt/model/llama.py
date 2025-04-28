@@ -408,6 +408,7 @@ class Llama4Config(Llama3Config):
     rope_scaling: bool = True
     rope_scaling_factor: float = 8.0
     attention_chunk_size: int = 8192
+    rotary_interleaved: bool = False
 
 
 @dataclass
@@ -432,6 +433,33 @@ class Llama4Experts128Config(Llama4Config):
     rope_scaling: bool = False
     moe_layer_freq: Union[int, List[int]] = field(default_factory=lambda: [0, 1] * 24)
     qk_l2_norm: bool = False
+
+@dataclass
+class AGIExperts128Config(Llama4Config):
+    """
+    Configuration for llama4 128-experts model.
+    """
+
+    num_moe_experts: int = 128
+    rope_scaling: bool = False
+    qk_l2_norm: bool = False
+    num_layers: int = 72
+    hidden_size: int = 8192
+    ffn_hidden_size: int = 20480
+    num_attention_heads: int = 64
+    num_query_groups: int = 8
+    moe_router_topk: int = 4
+    moe_ffn_hidden_size: int = 5120
+    moe_layer_freq: Union[int, List[int]] = field(default_factory=lambda: [0, 1] * 36)
+    moe_apply_probs_on_input: bool = False
+    moe_shared_expert_overlap: bool = False
+    moe_shared_expert_intermediate_size: Optional[int] = None
+    moe_router_load_balancing_type: str = "aux_loss"
+    moe_router_pre_softmax: bool = True
+    moe_expert_capacity_factor: float = 1.25
+    moe_pad_expert_input_to_capacity: bool = True
+
+
 
 
 class LlamaModel(GPTModel):
